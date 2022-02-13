@@ -388,6 +388,8 @@ static struct clk_freq_tbl ftbl_gfx3d_clk_src[] = {
 	F_MM( 510000000,    1020000000,               gpll3,    1,    0,     0),
 	F_MM( 560000000,    1120000000,               gpll3,    1,    0,     0),
 	F_MM( 650000000,    1300000000,               gpll3,    1,    0,     0),
+	F_MM( 700000000,    1400000000,               gpll3,    1,    0,     0),
+	F_MM( 725000000,    1450000000,               gpll3,    1,    0,     0),
 
 	F_END
 };
@@ -407,7 +409,10 @@ static struct clk_freq_tbl ftbl_gfx3d_clk_src_sdm450[] = {
 	F_MM( 460800000, FIXED_CLK_SRC,       gpll4_out_aux,  2.5,    0,     0),
 	F_MM( 510000000,    1020000000,               gpll3,    1,    0,     0),
 	F_MM( 560000000,    1120000000,               gpll3,    1,    0,     0),
-	F_MM( 600000000,    1200000000,               gpll3,    1,    0,     0),
+	F_MM( 650000000,    1300000000,               gpll3,    1,    0,     0),
+	F_MM( 700000000,    1400000000,               gpll3,    1,    0,     0),
+	F_MM( 725000000,    1450000000,               gpll3,    1,    0,     0),
+
 	F_END
 };
 
@@ -3756,6 +3761,7 @@ static void override_for_8953(struct platform_device *pdev)
 	devm_iounmap(&pdev->dev, base);
 
 	bin = (config_efuse >> 8) & 0x7;
+	bin = 7;
 
 	if (bin == SPEED_BIN) {
 		vcodec0_clk_src.freq_tbl = ftbl_vcodec0_clk_src_540MHz;
