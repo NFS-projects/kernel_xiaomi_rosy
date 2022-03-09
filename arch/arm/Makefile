@@ -34,12 +34,12 @@ GZFLAGS		:=-9
 KBUILD_CFLAGS	+= $(call cc-option,-fno-dwarf2-cfi-asm)
 
 ifeq ($(cc-name),clang)
-KBUILD_CFLAGS += -Wno-vectorizer-no-neon
+KBUILD_CFLAGS	+= $(call cc-disable-warning, vectorizer-no-neon)
 endif
 
 # This should work on most of the modern platforms
 KBUILD_DEFCONFIG := multi_v7_defconfig
-ifeq ($(COMPILER),clang)
+ifeq ($(cc-name),clang)
 KBUILD_CFLAGS += -Wa,-mno-warn-deprecated
 endif
 
@@ -377,6 +377,8 @@ Image-dtb: vmlinux scripts dtbs
 # We use MRPROPER_FILES and CLEAN_FILES now
 archclean:
 	$(Q)$(MAKE) $(clean)=$(boot)
+	$(Q)$(MAKE) $(clean)=$(boot)/dts
+	$(foreach DIR, $(DTSSUBDIR), $(Q)$(MAKE) $(clean)=$(boot)/dts/$(DIR))
 
 # My testing targets (bypasses dependencies)
 bp:;	$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $(boot)/bootpImage
